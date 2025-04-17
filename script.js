@@ -31,14 +31,34 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // --- NYTT: Prøv å starte musikken når siden er lastet ---
+    // Merk: Dette kan bli blokkert av nettleseren inntil brukerinteraksjon.
+    function tryPlayMusic() {
+        backgroundMusic.play().then(() => {
+            console.log("Bakgrunnsmusikk startet automatisk.");
+        }).catch(error => {
+            console.log("Automatisk avspilling av musikk ble blokkert:", error);
+            // Ingen grunn til å vise feilmelding til brukeren her,
+            // musikken vil prøves igjen ved klikk på startknappen.
+        });
+    }
+    // Kall funksjonen for å prøve å spille musikken:
+    tryPlayMusic();
+    // -------------------------------------------------------
+
     // Event listener for startknappen
     startButton.addEventListener('click', () => {
         showPage('post-1-page'); // Vis første post
-        // Prøv å spille musikken (kan bli blokkert av nettleser før brukerinteraksjon)
-        backgroundMusic.play().catch(error => {
-            console.log("Musikkavspilling blokkert av nettleser:", error);
-            // Du kan legge til en melding til brukeren her om nødvendig
-        });
+
+        // --- FORTSATT HER: Prøv å spille musikken ved klikk (viktig fallback) ---
+        // Hvis musikken ikke allerede spiller (f.eks. ble blokkert), prøv igjen nå.
+        if (backgroundMusic.paused) {
+             backgroundMusic.play().catch(error => {
+                 console.log("Musikkavspilling ved klikk feilet også:", error);
+                 // Her kan du vurdere en liten melding hvis det fortsatt feiler.
+             });
+        }
+        // --------------------------------------------------------------------
     });
 
     // Event listeners for alle "Sjekk svar"-knapper
@@ -47,12 +67,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const postNumber = button.getAttribute('data-post'); // Få postnummer fra data-attributt
             const inputElement = document.getElementById(`post-${postNumber}-input`);
             const feedbackElement = document.getElementById(`feedback-${postNumber}`);
-            const userAnswer = inputElement.value.trim().toUpperCase(); // Les brukerens svar, fjern PÅSKEegg og gjør om til store bokstaver
+            // Brukerens svar, fjernet mellomrom før/etter, og gjort om til store bokstaver
+            const userAnswer = inputElement.value.trim().toUpperCase();
             const correctCode = correctCodes[`post${postNumber}`]; // Hent riktig kodeord
 
             if (!userAnswer) {
                 feedbackElement.textContent = 'Du må skrive inn et svar!';
                 feedbackElement.className = 'feedback error'; // Sett feil-stil
+                // Rist inputfeltet for visuell feedback ved tom input
+                inputElement.classList.add('shake');
+                setTimeout(() => inputElement.classList.remove('shake'), 500);
                 return; // Ikke gjør mer hvis feltet er tomt
             }
 
@@ -68,7 +92,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         showPage(`post-${nextPostNumber}-page`); // Vis neste post
                     } else {
                         showPage('finale-page'); // Vis finalesiden
-                        backgroundMusic.pause(); // Stopp musikken på slutten (valgfritt)
+                        if (!backgroundMusic.paused) { // Bare pause hvis den spiller
+                           backgroundMusic.pause(); // Stopp musikken på slutten
+                           backgroundMusic.currentTime = 0; // Spol tilbake til start (valgfritt)
+                        }
                     }
                     // Tøm inputfelt og feedback for neste gang (valgfritt)
                      inputElement.value = '';
@@ -86,20 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-     // Sørg for at inputfelt tømmes når man går til en ny side (valgfritt, men ryddig)
-    // Dette kan gjøres mer sofistikert, men er en enkel løsning
-     pages.forEach(page => {
-         const input = page.querySelector('input[type="text"]');
-         if(input) {
-             page.addEventListener('transitionend', () => { // Eller når siden blir synlig
-                 if(page.classList.contains('visible')) {
-                     // input.value = ''; // Tømmer når siden blir synlig
-                 }
-             });
-         }
-     });
-
-    // Sørg for at intro-siden vises ved start (selv om CSS gjør det, ekstra sikkerhet)
+    // Sørg for at intro-siden vises ved start
     showPage('intro-page');
 
 }); // Slutt på DOMContentLoaded
