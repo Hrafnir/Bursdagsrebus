@@ -1,0 +1,143 @@
+/* Generell styling */
+body {
+    font-family: 'Comic Sans MS', 'Chalkboard SE', 'Arial', sans-serif; /* Lystig font */
+    background-color: #FFFACD; /* Lys gul bakgrunn (LemonChiffon) */
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Juster til toppen for lange sider */
+    min-height: 100vh;
+}
+
+.container {
+    background-color: #FFD700; /* Gyllen gul (Gold) */
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+    border: 5px dashed #FFA500; /* Oransje stiplet kant */
+}
+
+/* Skjul alle "sider" som standard */
+.page {
+    display: none;
+    animation: fadeIn 0.5s ease-in-out; /* Liten fade-in effekt */
+}
+
+/* Vis den aktive siden */
+.page.visible {
+    display: block;
+}
+
+/* Animasjon for fade-in */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+
+/* Overskrifter */
+h1 {
+    color: #FF4500; /* Oransjerød */
+    margin-bottom: 15px;
+}
+
+h2 {
+    color: #4CAF50; /* Grønn */
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+/* Bilde */
+#bursdagsbilde {
+    max-width: 50%; /* Juster størrelsen etter behov */
+    height: auto;
+    border-radius: 50%; /* Rundt bilde */
+    border: 4px solid #fff;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Paragrafer */
+p {
+    line-height: 1.6;
+    margin-bottom: 15px;
+    font-size: 1.1em; /* Litt større tekst */
+}
+
+strong {
+    color: #E63946; /* En annen farge for utheving */
+}
+
+/* Input-felt */
+input[type="text"] {
+    padding: 12px;
+    margin-top: 10px;
+    border: 2px solid #FFA500; /* Oransje kant */
+    border-radius: 8px;
+    width: calc(100% - 30px); /* Litt mindre enn full bredde */
+    font-size: 1em;
+    text-transform: uppercase; /* Gjør om til store bokstaver automatisk */
+}
+
+/* Knapper */
+button {
+    background-color: #4CAF50; /* Grønn */
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-top: 15px;
+    transition: background-color 0.3s ease;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+}
+
+button:hover {
+    background-color: #45a049; /* Litt mørkere grønn ved hover */
+}
+
+#start-button {
+    background-color: #FF4500; /* Oransjerød startknapp */
+    font-size: 1.3em;
+    padding: 15px 30px;
+}
+
+#start-button:hover {
+    background-color: #e03e00;
+}
+
+/* Tilbakemeldinger */
+.feedback {
+    margin-top: 15px;
+    font-weight: bold;
+    min-height: 20px; /* Sørger for at layout ikke hopper for mye */
+}
+
+.feedback.success {
+    color: #4CAF50; /* Grønn for suksess */
+}
+
+.feedback.error {
+    color: #E63946; /* Rød for feil */
+    animation: shake 0.3s; /* Riste-animasjon ved feil */
+}
+
+/* Riste-animasjon */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+}
+
+/* Skjul standard lydkontroller (valgfritt) */
+#background-music {
+/*     display: none; */ /* Fjern kommentar for å skjule helt */
+}
