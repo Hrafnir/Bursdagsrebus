@@ -84,6 +84,12 @@ input[type="text"] {
     text-transform: uppercase; /* Gjør om til store bokstaver automatisk */
 }
 
+/* Risting for input-felt */
+input[type="text"].shake {
+    animation: shake 0.5s;
+}
+
+
 /* Knapper */
 button {
     background-color: #4CAF50; /* Grønn */
@@ -118,6 +124,7 @@ button:hover {
     margin-top: 15px;
     font-weight: bold;
     min-height: 20px; /* Sørger for at layout ikke hopper for mye */
+    /* Vi setter farge og animasjon dynamisk med JS */
 }
 
 .feedback.success {
@@ -126,16 +133,21 @@ button:hover {
 
 .feedback.error {
     color: #E63946; /* Rød for feil */
-    animation: shake 0.3s; /* Riste-animasjon ved feil */
 }
 
-/* Riste-animasjon */
+/* Riste-animasjon (brukes av både input og feedback via JS) */
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
   25% { transform: translateX(-5px); }
   50% { transform: translateX(5px); }
   75% { transform: translateX(-5px); }
 }
+
+/* Riste-klassen som legges til av JS */
+.feedback.shake, input.shake {
+    animation: shake 0.5s;
+}
+
 
 /* Skjul standard lydkontroller (valgfritt) */
 #background-music {
