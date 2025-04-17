@@ -1,114 +1,125 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Hent referanser til HTML-elementer
-    const startButton = document.getElementById('start-button');
-    const backgroundMusic = document.getElementById('background-music');
-    const pages = document.querySelectorAll('.page'); // Alle "sidene"
-    const feedbackDivs = document.querySelectorAll('.feedback');
-    const checkButtons = document.querySelectorAll('.check-answer-btn');
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sølves Påske-Escape!</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-    // ----- DEFINER KODEORDENE HER -----
-    const correctCodes = {
-        post1: 'SØLVE',
-        post2: 'SOL',
-        post3: 'POTETGULL',
-        post4: 'DANSEGLEDE',
-        post5: 'HARE'
-    };
-    // ------------------------------------
+    <div class="container">
 
-    // Funksjon for å vise en spesifikk side og skjule resten
-    function showPage(pageId) {
-        pages.forEach(page => {
-            page.classList.remove('visible');
-        });
-        const nextPage = document.getElementById(pageId);
-        if (nextPage) {
-            nextPage.classList.add('visible');
-        } else {
-            console.error("Kunne ikke finne side med ID:", pageId);
-        }
-    }
+        <!-- INTRODUKSJONSSIDE -->
+        <div id="intro-page" class="page visible">
+            <h1>Velkommen til Sølves Påske-Escape!</h1>
+            <img src="images/bursdagsbilde.jpg" alt="Bilde av bursdagsbarnet Sølve" id="bursdagsbilde">
+            <h2>Den Forheksede Påskeharen</h2>
+            <p>
+                I år har noe gått fryktelig galt! Påskeharen har blitt forhekset av den onde Trollkjerringa Mugga, og alle påskeeggene er blitt låst inne i en magisk kiste! 😱
+            </p>
+            <p>
+                For å bryte forbannelsen må dere finne <strong>5 digitale nøkler</strong> 🔑 ved å løse oppgaver sammen. Denne appen er deres magiske kart og nøkkelsamler!
+            </p>
+            <p>
+                Er dere klare til å redde påsken for Sølve?
+            </p>
+            <!-- Audio-tag med autoplay og muted -->
+            <audio id="background-music" loop autoplay muted>
+                <source src="audio/bakgrunnsmusikk.mp3" type="audio/mpeg">
+                Nettleseren din støtter ikke lydavspilling.
+            </audio>
+            <button id="start-button">Start Løypa!</button>
+        </div>
 
-    // --- FORSØK Å SPILLE AV MUTED VED LASTING (via HTML-attributter) ---
-    // Vi stoler nå på 'autoplay muted' i HTML.
-    // Vi kan legge til en sjekk her hvis vi vil være ekstra sikre,
-    // men holder det enkelt foreløpig.
-    console.log("Forsøker å spille av muted musikk via HTML attributter...");
-    backgroundMusic.play().catch(e => console.log("Muted autoplay feilet initielt:", e)); // Forsøk å spille uansett, nettleser håndterer muted
+        <!-- POST 1 -->
+        <div id="post-1-page" class="page">
+            <h2>Post 1: Ballongmysteriet 🎈</h2>
+            <p>
+                Pust liv i ledetrådene! Finn ballongene som henger/ligger <strong>foran huset</strong>.
+            </p>
+            <p>
+                Sprekk dem (forsiktig!) og finn bokstavene inni. Sett sammen bokstavene til et <strong>veldig viktig ord</strong> i dag!
+            </p>
+            <input type="text" id="post-1-input" placeholder="Skriv kodeordet her">
+            <button class="check-answer-btn" data-post="1">Sjekk svar</button>
+            <div class="feedback" id="feedback-1"></div>
+        </div>
 
-    // Event listener for startknappen
-    startButton.addEventListener('click', () => {
-        // --- VIKTIG: FJERN MUTE HER! ---
-        backgroundMusic.muted = false;
+        <!-- POST 2 -->
+        <div id="post-2-page" class="page">
+            <h2>Post 2: Naturkoden 🌳</h2>
+            <p>
+                Bravo! Gå nå til området <strong>foran Bestas hus</strong>.
+            </p>
+            <p>
+                Der et sted er det gjemt en liten lapp eller brikke. Let godt! Hva står det på den?
+            </p>
+            <input type="text" id="post-2-input" placeholder="Skriv kodeordet her">
+            <button class="check-answer-btn" data-post="2">Sjekk svar</button>
+            <div class="feedback" id="feedback-2"></div>
+        </div>
 
-        // Prøv å spille igjen hvis den av en eller annen grunn ikke startet (backup)
-        if (backgroundMusic.paused) {
-            backgroundMusic.play().catch(error => {
-                console.log("Musikkavspilling ved klikk feilet:", error);
-            });
-        }
-        // --------------------------------
+        <!-- POST 3 -->
+        <div id="post-3-page" class="page">
+            <h2>Post 3: Potet-Presisjon 🥔</h2>
+            <p>
+                Strålende! Nå må dere vise styrke og presisjon. Finn en voksen som venter ved <strong>den gamle bjørkestubben i hagen</strong>.
+            </p>
+            <p>
+                Fullfør oppgaven dere får der. Samarbeid er nøkkelen! Den voksne gir dere et hemmelig kodeord når dere har klart det.
+            </p>
+            <input type="text" id="post-3-input" placeholder="Skriv kodeordet fra voksen">
+            <button class="check-answer-btn" data-post="3">Sjekk svar</button>
+            <div class="feedback" id="feedback-3"></div>
+        </div>
 
-        // Vis neste side
-        showPage('post-1-page');
-    });
+        <!-- POST 4 -->
+        <div id="post-4-page" class="page">
+            <h2>Post 4: Påskedansen 🕺💃</h2>
+            <p>
+                Imponerende balanse! Nå er det tid for rytme! Gå til <strong>plattingen ved huset til Besta</strong>.
+            </p>
+            <p>
+                Finn den voksne der. Lær den hemmelige påskedansen og fremfør den sammen med stil! Den voksne gir dere neste kodeord når dansen sitter.
+            </p>
+            <input type="text" id="post-4-input" placeholder="Skriv kodeordet fra voksen">
+            <button class="check-answer-btn" data-post="4">Sjekk svar</button>
+            <div class="feedback" id="feedback-4"></div>
+        </div>
 
-    // Event listeners for alle "Sjekk svar"-knapper
-    checkButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const postNumber = button.getAttribute('data-post');
-            const inputElement = document.getElementById(`post-${postNumber}-input`);
-            const feedbackElement = document.getElementById(`feedback-${postNumber}`);
-            const userAnswer = inputElement.value.trim().toUpperCase();
-            const correctCode = correctCodes[`post${postNumber}`];
+        <!-- POST 5 -->
+        <div id="post-5-page" class="page">
+            <h2>Post 5: Det Siste Hintet 🤫</h2>
+            <p>
+                For noen danseløver! Siste nøkkel er nær! Gå til området <strong>mellom husene</strong> (der dere kan se begge husene godt).
+            </p>
+            <p>
+                Et eller annet sted der er det siste, avgjørende kodeordet gjemt. Let nøye!
+            </p>
+            <input type="text" id="post-5-input" placeholder="Skriv det siste kodeordet">
+            <button class="check-answer-btn" data-post="5">Sjekk svar</button>
+            <div class="feedback" id="feedback-5"></div>
+        </div>
 
-            if (!userAnswer) {
-                feedbackElement.textContent = 'Du må skrive inn et svar!';
-                feedbackElement.className = 'feedback error shake'; // Legg til shake direkte
-                setTimeout(() => feedbackElement.classList.remove('shake'), 500);
-                inputElement.classList.add('shake'); // Rist også input
-                setTimeout(() => inputElement.classList.remove('shake'), 500);
-                return;
-            }
+        <!-- FINALE -->
+        <div id="finale-page" class="page">
+            <h1>GRATULERER! 🎉</h1>
+            <h2>Dere klarte det!</h2>
+            <p>
+                Alle 5 nøklene er funnet! 🔑🔑🔑🔑🔑 Forbannelsen er brutt, og Påskeharen er fri!
+            </p>
+            <p>
+                Nå kan dere finne skatten! Gå til [***BESKRIV NØYAKTIG HVOR KISTEN/PREMIEN ER HER!***, f.eks. "verandaen ved inngangsdøra til hovedhuset"].
+            </p>
+            <p>
+                Før dere åpner skatten, rop høyt i kor: <br><strong>"Påskehare, fri deg nå – vi har nøklene, vi lar deg gå!"</strong>
+            </p>
+            <h2>Ha en super feiring videre, Sølve! 🥳</h2>
+        </div>
 
-            if (userAnswer === correctCode) {
-                feedbackElement.textContent = 'Helt riktig! 🔑 Bra jobba!';
-                feedbackElement.className = 'feedback success';
+    </div>
 
-                setTimeout(() => {
-                    const nextPostNumber = parseInt(postNumber) + 1;
-                    if (nextPostNumber <= 5) {
-                        showPage(`post-${nextPostNumber}-page`);
-                    } else {
-                        showPage('finale-page');
-                        if (!backgroundMusic.paused) {
-                           backgroundMusic.pause();
-                           backgroundMusic.currentTime = 0;
-                        }
-                    }
-                    inputElement.value = '';
-                    // feedbackElement.textContent = ''; // Tøm feedback hvis ønskelig
-                }, 1500);
-
-            } else {
-                feedbackElement.textContent = 'Hmm, det stemmer ikke helt. Prøv igjen!';
-                feedbackElement.className = 'feedback error shake'; // Legg til shake direkte
-                setTimeout(() => feedbackElement.classList.remove('shake'), 500);
-                inputElement.classList.add('shake'); // Rist også input
-                setTimeout(() => inputElement.classList.remove('shake'), 500);
-            }
-        });
-    });
-
-    // Sørg for at intro-siden vises ved start
-    showPage('intro-page');
-
-}); // Slutt på DOMContentLoaded
-
-// Liten CSS justering for shake på feedback
-// Legg til dette i style.css hvis du bruker shake på feedback-div også:
-/*
-.feedback.shake {
-    animation: shake 0.5s;
-}
-*/
+    <script src="script.js"></script>
+</body>
+</html>
